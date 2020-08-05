@@ -1,20 +1,16 @@
 import React from 'react';
 import {
-  View,
   Text,
   StyleSheet,
-  TextInput,
-  Button,
   ScrollView,
-  ActivityIndicator,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import _ from 'lodash';
-
-import {Card, Header, ListItem} from 'react-native-elements';
+import {Card} from 'react-native-elements';
 import Firebase from '../Firebase/Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {cos} from 'react-native-reanimated';
+//import {cos} from 'react-native-reanimated';
 
 class DeleteEditNotice extends React.Component {
   constructor(props) {
@@ -42,7 +38,8 @@ class DeleteEditNotice extends React.Component {
             dataList[a].key,
             dataList[a].val.notice,
             dataList[a].val.noticeTittle,
-            dataList[a].time,
+            dataList[a].val.dates,
+            dataList[a].val.time,
           ]);
         }
         console.log(arr);
@@ -53,14 +50,39 @@ class DeleteEditNotice extends React.Component {
   }
 
   handleDelete(key) {
-    console.log(key);
+    // console.log(key);
     Firebase.database()
       .ref('/notices/' + key)
       .remove();
   }
+
+  editNotice = (id, title, notice, date, time) => {
+    // console.log('AassssAAAAAAAAA', id);
+    this.props.navigation.navigate('EditForm', {
+      id: id,
+      title: title,
+      notice: notice,
+      date: date,
+      time: time,
+    });
+  };
+  signOut = () => {
+    //  console.log('djncsjd');
+    Firebase.auth()
+      .signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch((error) => console.log(error));
+  };
+
   render() {
     return (
       <React.Fragment>
+        <View>
+          <TouchableOpacity onPress={this.signOut}>
+            <Text style={styles.lgbtn}>LogOut</Text>
+          </TouchableOpacity>
+        </View>
+
         <ScrollView>
           {this.state.noticeList.map((notice, i) => (
             <Card>
@@ -75,7 +97,15 @@ class DeleteEditNotice extends React.Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('EditForm')}>
+                  onPress={() =>
+                    this.editNotice(
+                      notice[0],
+                      notice[2],
+                      notice[1],
+                      notice[3],
+                      notice[4],
+                    )
+                  }>
                   <Icon
                     style={styles.editbtn}
                     name="edit"
@@ -85,7 +115,9 @@ class DeleteEditNotice extends React.Component {
                 </TouchableOpacity>
               </Text>
               <Text style={styles.title}>{notice[2]}</Text>
-              <Text>{notice[3]}</Text>
+              <Text style={styles.date}>
+                {notice[3]} {notice[4]}
+              </Text>
               <Text>{notice[1]}</Text>
             </Card>
           ))}
@@ -119,6 +151,21 @@ const styles = StyleSheet.create({
   },
   editbtn: {
     paddingLeft: 10,
+  },
+  date: {
+    fontSize: 12,
+    color: 'grey',
+    fontWeight: 'bold',
+  },
+  lgbtn:{
+    fontSize:20,
+    fontWeight:'bold',
+    marginLeft:270,
+    marginTop:8,
+    backgroundColor: 'orange',
+    width:80,
+    paddingLeft:6,
+    borderRadius:10,
   },
 });
 export default DeleteEditNotice;

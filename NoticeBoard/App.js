@@ -10,7 +10,6 @@ import Logout from './src/Component/Logout';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-
 const Stack = createStackNavigator();
 
 class App extends React.Component {
@@ -24,7 +23,7 @@ class App extends React.Component {
             options={{
               title: 'Login',
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: 'blue',
                 alignItems: 'center',
               },
               headerTintColor: '#fff',
@@ -41,7 +40,7 @@ class App extends React.Component {
               title: 'SignUp',
               headerLeft: null,
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: 'blue',
               },
               headerTintColor: '#fff',
               headerTitleAlign: 'center',
@@ -56,11 +55,11 @@ class App extends React.Component {
             options={{
               title: 'My Notice Board',
               headerLeft: null,
-              headerRight: () => <Logout />,
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: 'blue',
               },
               headerTintColor: '#fff',
+              headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
@@ -72,11 +71,12 @@ class App extends React.Component {
             options={{
               title: 'Add new Notice',
               headerLeft: null,
-              headerRight: () => <Logout />,
+
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: 'blue',
               },
               headerTintColor: '#fff',
+              headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
@@ -88,17 +88,34 @@ class App extends React.Component {
             options={{
               title: 'Delete And Edit Notice',
               headerLeft: null,
-              headerRight: () => <Logout />,
+
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: 'blue',
               },
               headerTintColor: '#fff',
+              headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
             }}
           />
-          <Stack.Screen name="EditForm" component={EditForm} />
+          <Stack.Screen
+            name="EditForm"
+            component={EditForm}
+            options={{
+              title: 'Edit Form',
+              headerLeft: null,
+
+              headerStyle: {
+                backgroundColor: 'blue',
+              },
+              headerTintColor: '#fff',
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );

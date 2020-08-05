@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
 import {Card, Header} from 'react-native-elements';
 import Firebase from '../Firebase/Firebase';
@@ -65,13 +65,27 @@ class Notice extends React.Component {
         notice: '',
       });
 
-      this.props.navigation.navigate('Profile')
+      this.props.navigation.navigate('Profile');
     }
+  };
+  
+  signOut = () => {
+    //  console.log('djncsjd');
+    Firebase.auth()
+      .signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch((error) => console.log(error));
   };
 
   render() {
     return (
       <React.Fragment>
+        <View>
+          <TouchableOpacity onPress={this.signOut}>
+            <Text style={styles.lgbtn}>LogOut</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.container}>
           <Card style={styles.crdStyle}>
             <Text style={styles.title}>Add New Notice</Text>
@@ -185,6 +199,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  lgbtn:{
+    fontSize:20,
+    fontWeight:'bold',
+    marginLeft:270,
+    marginTop:8,
+    backgroundColor: 'orange',
+    width:80,
+    paddingLeft:6,
+    borderRadius:10,
   },
 });
 export default Notice;

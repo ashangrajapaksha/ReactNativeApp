@@ -1,17 +1,14 @@
 import React from 'react';
 import {
-  View,
   Text,
   StyleSheet,
-  TextInput,
-  Button,
   ScrollView,
-  ActivityIndicator,
+  View,
   TouchableOpacity,
 } from 'react-native';
 import _ from 'lodash';
 
-import {Card, Header, ListItem} from 'react-native-elements';
+import {Card} from 'react-native-elements';
 import Firebase from '../Firebase/Firebase';
 import {FAB} from 'react-native-paper';
 
@@ -40,7 +37,8 @@ class Profile extends React.Component {
           arr.push([
             dataList[a].val.notice,
             dataList[a].val.noticeTittle,
-            dataList[a].time,
+            dataList[a].val.dates,
+            dataList[a].val.time,
           ]);
         }
         //console.log(arr);
@@ -49,18 +47,35 @@ class Profile extends React.Component {
         });
       });
   }
+
+  signOut = () => {
+    //  console.log('djncsjd');
+    Firebase.auth()
+      .signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch((error) => console.log(error));
+  };
   render() {
     return (
       <React.Fragment>
+        <View>
+          <TouchableOpacity onPress={this.signOut}>
+            <Text style={styles.lgbtn}>LogOut</Text>
+          </TouchableOpacity>
+        </View> 
+
         <ScrollView>
           {this.state.noticeList.map((notice, i) => (
-            <Card>
+            <Card style={styles.crd}>
               <Text style={styles.title}>{notice[1]}</Text>
-              <Text style={styles.notice}>{notice[2]}</Text>
+              <Text style={styles.date}>
+                {notice[2]} {notice[3]}
+              </Text>
               <Text>{notice[0]}</Text>
             </Card>
           ))}
         </ScrollView>
+
         <FAB
           style={styles.fab}
           small={false}
@@ -68,6 +83,8 @@ class Profile extends React.Component {
           theme={{colors: {accent: 'blue'}}}
           onPress={() => this.props.navigation.navigate('Notice')}
         />
+
+        
       </React.Fragment>
     );
   }
@@ -79,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     width: '100%',
   },
-  
+
   title: {
     fontWeight: 'bold',
     fontSize: 16,
@@ -94,5 +111,23 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  date: {
+    fontSize: 12,
+    color: 'grey',
+    fontWeight: 'bold',
+  },
+  lgbtn:{
+    fontSize:20,
+    fontWeight:'bold',
+    marginLeft:270,
+    marginTop:8,
+    backgroundColor: 'orange',
+    width:80,
+    paddingLeft:6,
+    borderRadius:10,
+  },
+  crd:{
+    borderRadius:2,
+  }
 });
 export default Profile;

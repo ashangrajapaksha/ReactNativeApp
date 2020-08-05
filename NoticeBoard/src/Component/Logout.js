@@ -6,7 +6,9 @@ import Firebase from '../Firebase/Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Logout extends Component {
+
   signOut = () => {
+    //  console.log('djncsjd');
     Firebase.auth()
       .signOut()
       .then(() => this.props.navigation.navigate('Login'))

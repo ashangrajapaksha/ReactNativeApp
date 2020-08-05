@@ -1,17 +1,40 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
 
 import {Card, Header} from 'react-native-elements';
 import Firebase from '../Firebase/Firebase';
 
 class EditForm extends React.Component {
-  state = {
-    noticeTittle: '',
-    notice: '',
+  constructor(props) {
+    // console.log('ccccccccc', props);
 
-    noticeTittleError: '',
-    noticeError: '',
-  };
+    super(props);
+
+    this.state = {
+      id: '',
+      noticeTittle: '',
+      notice: '',
+      noticeTittleError: '',
+      noticeError: '',
+    };
+  }
+
+  componentDidMount() {
+    const {id, title, notice} = this.props.route.params;
+
+    this.setState({
+      id: id,
+      noticeTittle: title,
+      notice: notice,
+    });
+  }
 
   validate = () => {
     // console.log('dfsjvilc');
@@ -39,9 +62,21 @@ class EditForm extends React.Component {
     return isError;
   };
 
-  saveNotice = () => {
-    //console.log(this.state.notice);
+  updteNotice = () => {
+    console.log(this.state.notice);
     const err = this.validate();
+    var noticeTittle = this.state.noticeTittle;
+    var notice = this.state.notice;
+
+    let date = new Date();
+    var dates = date.toLocaleDateString();
+    var time = date.toLocaleTimeString();
+
+    Firebase.database()
+      .ref('/notices')
+      .child(this.state.id)
+      .update({noticeTittle, notice, dates, time})
+      .then(() => this.props.navigation.navigate('Profile'));
 
     if (!err) {
       this.setState({
@@ -55,10 +90,23 @@ class EditForm extends React.Component {
       });
     }
   };
+  signOut = () => {
+    //  console.log('djncsjd');
+    Firebase.auth()
+      .signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch((error) => console.log(error));
+  };
 
   render() {
     return (
       <React.Fragment>
+        <View>
+          <TouchableOpacity onPress={this.signOut}>
+            <Text style={styles.lgbtn}>LogOut</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.container}>
           <Card style={styles.crdStyle}>
             <Text style={styles.title}>Update Notice</Text>
@@ -84,7 +132,7 @@ class EditForm extends React.Component {
             <Button
               title="Update Notice"
               width="25"
-              onPress={this.saveNotice}
+              onPress={this.updteNotice}
             />
           </Card>
         </View>
@@ -144,6 +192,17 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 1,
     marginLeft: 5,
+  },
+
+  lgbtn:{
+    fontSize:20,
+    fontWeight:'bold',
+    marginLeft:270,
+    marginTop:8,
+    backgroundColor: 'orange',
+    width:80,
+    paddingLeft:6,
+    borderRadius:10,
   },
 });
 export default EditForm;
