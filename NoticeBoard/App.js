@@ -7,6 +7,7 @@ import Notice from './src/Component/Notice';
 import DeleteEditNotice from './src/Component/DeleteEditNotice';
 import EditForm from './src/Component/EditFrom';
 import Logout from './src/Component/Logout';
+import Loading from './src/Component/Loading';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -16,12 +17,29 @@ class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator>
+      <Stack.Navigator>
+          <Stack.Screen
+            name="Loading"
+            component={Loading}
+            options={{
+              title: 'My Notice Board',
+              headerStyle: {
+                backgroundColor: 'blue',
+                alignItems: 'center',
+              },
+              headerTintColor: '#fff',
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
           <Stack.Screen
             name="Login"
             component={Login}
             options={{
               title: 'Login',
+              headerLeft: null,
               headerStyle: {
                 backgroundColor: 'blue',
                 alignItems: 'center',

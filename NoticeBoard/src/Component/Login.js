@@ -8,6 +8,7 @@ import {
   Text,
   ImageBackground,
   ActivityIndicator,
+  LayoutAnimation,
 } from 'react-native';
 
 import Firebase from '../Firebase/Firebase';
@@ -15,11 +16,11 @@ import Firebase from '../Firebase/Firebase';
 import BG from '../image/login.jpg';
 
 class Login extends React.Component {
-  
   state = {
     email: '',
     password: '',
     //isLoading: false,
+    errorMessage: null,
   };
 
   handleLogin = () => {
@@ -37,7 +38,7 @@ class Login extends React.Component {
       Firebase.auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => this.props.navigation.navigate('Profile'))
-        .catch((error) => console.log(error));
+        .catch((error) => this.setState({errorMessage: error.message}));
     }
   };
 
@@ -49,7 +50,10 @@ class Login extends React.Component {
     //     </View>
     //   );
     // }
+
+    LayoutAnimation.easeInEaseOut();
     return (
+
       <ImageBackground style={styles.container} source={BG}>
         <Text style={styles.header}>Notice Board</Text>
         <TextInput
@@ -75,13 +79,18 @@ class Login extends React.Component {
           title="Don't have an account yet? Sign up"
           onPress={() => this.props.navigation.navigate('Signup')}
         />
+        <View style={styles.errorMessage}>
+          {this.state.errorMessage && (
+            <Text style={styles.error}>{this.state.errorMessage}</Text>
+          )}
+        </View>
       </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  preloader:{
+  preloader: {
     left: 0,
     right: 0,
     top: 0,
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 
   container: {
@@ -132,5 +141,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'yellow',
   },
+  errorMessage: {
+    height: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 30,
+    color:'red',
+  },
+  error:{
+    color:'red',
+    fontSize:16,
+  }
 });
 export default Login;

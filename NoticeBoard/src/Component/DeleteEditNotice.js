@@ -18,10 +18,17 @@ class DeleteEditNotice extends React.Component {
 
     this.state = {
       noticeList: [],
+      user:'',
     };
   }
 
   componentDidMount() {
+
+    const {currentUser} = Firebase.auth();
+    this.setState({
+      user: currentUser.email,
+    });
+
     Firebase.database()
       .ref('/notices')
       .on('value', (data) => {
@@ -157,15 +164,15 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontWeight: 'bold',
   },
-  lgbtn:{
-    fontSize:20,
-    fontWeight:'bold',
-    marginLeft:270,
-    marginTop:8,
+  lgbtn: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 270,
+    marginTop: 8,
     backgroundColor: 'orange',
-    width:80,
-    paddingLeft:6,
-    borderRadius:10,
+    width: 80,
+    paddingLeft: 6,
+    borderRadius: 10,
   },
 });
 export default DeleteEditNotice;

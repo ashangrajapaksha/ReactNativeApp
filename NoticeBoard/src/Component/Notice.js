@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
 
 import {Card, Header} from 'react-native-elements';
 import Firebase from '../Firebase/Firebase';
@@ -9,10 +9,29 @@ class Notice extends React.Component {
   state = {
     noticeTittle: '',
     notice: '',
+    currentUser: '',
 
     noticeTittleError: '',
     noticeError: '',
   };
+
+  componentDidMount() {
+    var users = Firebase.auth().currentUser;
+
+    if (users != null) {
+      users.providerData.forEach(function (profile) {
+        console.log('Sign-in provider: ' + profile.providerId);
+        console.log('  Provider-specific UID: ' + profile.uid);
+        console.log('  Name: ' + profile.name);
+        console.log('  Email: ' + profile.email);
+      });
+    }
+
+    const {currentUser} = Firebase.auth();
+    this.setState({
+      currentUser: currentUser.email,
+    });
+  }
 
   validate = () => {
     // console.log('dfsjvilc');
@@ -56,6 +75,7 @@ class Notice extends React.Component {
       addNotice.push().set({
         noticeTittle: this.state.noticeTittle,
         notice: this.state.notice,
+        user: this.state.currentUser,
         dates: date.toLocaleDateString(),
         time: date.toLocaleTimeString(),
       });
@@ -68,7 +88,7 @@ class Notice extends React.Component {
       this.props.navigation.navigate('Profile');
     }
   };
-  
+
   signOut = () => {
     //  console.log('djncsjd');
     Firebase.auth()
@@ -78,6 +98,8 @@ class Notice extends React.Component {
   };
 
   render() {
+    //console.log('hbkbkhkuhnknjknjk', this.state.currentUser);
+
     return (
       <React.Fragment>
         <View>
@@ -200,15 +222,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
-  lgbtn:{
-    fontSize:20,
-    fontWeight:'bold',
-    marginLeft:270,
-    marginTop:8,
+  lgbtn: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 270,
+    marginTop: 8,
     backgroundColor: 'orange',
-    width:80,
-    paddingLeft:6,
-    borderRadius:10,
+    width: 80,
+    paddingLeft: 6,
+    borderRadius: 10,
   },
 });
 export default Notice;

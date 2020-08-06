@@ -57,7 +57,7 @@ class Signup extends React.Component {
   };
 
   handleSignUp = () => {
-    const {email, password} = this.state;
+    const {email, password, name} = this.state;
     const err = this.validate();
 
     if (!err) {

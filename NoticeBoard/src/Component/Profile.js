@@ -18,6 +18,7 @@ class Profile extends React.Component {
 
     this.state = {
       noticeList: [],
+      currentUser: null,
     };
   }
 
@@ -46,23 +47,28 @@ class Profile extends React.Component {
           noticeList: arr,
         });
       });
+
+    const {currentUser} = Firebase.auth();
+    this.setState({currentUser});
   }
 
   signOut = () => {
     //  console.log('djncsjd');
     Firebase.auth()
       .signOut()
-      .then(() => this.props.navigation.navigate('Login'))
+      .then(() => this.props.navigation.navigate('Loading'))
       .catch((error) => console.log(error));
   };
   render() {
+    const {currentUser} = this.state;
+
     return (
       <React.Fragment>
         <View>
           <TouchableOpacity onPress={this.signOut}>
             <Text style={styles.lgbtn}>LogOut</Text>
           </TouchableOpacity>
-        </View> 
+        </View>
 
         <ScrollView>
           {this.state.noticeList.map((notice, i) => (
@@ -83,8 +89,6 @@ class Profile extends React.Component {
           theme={{colors: {accent: 'blue'}}}
           onPress={() => this.props.navigation.navigate('Notice')}
         />
-
-        
       </React.Fragment>
     );
   }
@@ -116,18 +120,18 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontWeight: 'bold',
   },
-  lgbtn:{
-    fontSize:20,
-    fontWeight:'bold',
-    marginLeft:270,
-    marginTop:8,
+  lgbtn: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 270,
+    marginTop: 8,
     backgroundColor: 'orange',
-    width:80,
-    paddingLeft:6,
-    borderRadius:10,
+    width: 80,
+    paddingLeft: 6,
+    borderRadius: 10,
   },
-  crd:{
-    borderRadius:2,
-  }
+  crd: {
+    borderRadius: 2,
+  },
 });
 export default Profile;
