@@ -15,20 +15,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 class DeleteEditNotice extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       noticeList: [],
-      user:'',
+      // activeUser: null,
+      // currentUser: null,
     };
+
+    
   }
 
   componentDidMount() {
+    
 
-    const {currentUser} = Firebase.auth();
-    this.setState({
-      user: currentUser.email,
-    });
-
+    // const {currentUser} = Firebase.auth();
+    // this.setState({currentUser});
+    
+    
+    console.log('aaaaaaaaaaaaaaaaaa', this.state.currentUser);
     Firebase.database()
       .ref('/notices')
       .on('value', (data) => {

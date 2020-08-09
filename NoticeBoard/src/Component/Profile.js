@@ -25,8 +25,9 @@ class Profile extends React.Component {
   componentDidMount() {
     Firebase.database()
       .ref('/notices')
+      
       .on('value', (data) => {
-        const dataList = _.map(data.val(), (val, key) => {
+        var dataList = _.map(data.val(), (val, key) => {
           return {
             val,
             //key,
@@ -44,7 +45,7 @@ class Profile extends React.Component {
         }
         //console.log(arr);
         this.setState({
-          noticeList: arr,
+          noticeList: arr.reverse(),
         });
       });
 

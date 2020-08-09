@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import {Card} from 'react-native-paper';
 import Firebase from '../Firebase/Firebase';
 import BG from '../image/login.jpg';
 
@@ -88,48 +89,51 @@ class Signup extends React.Component {
     }
 
     return (
-      <ImageBackground style={styles.container} source={BG}>
-        <Text style={styles.header}>Notice Board</Text>
+      <React.Fragment>
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.name}
+            onChangeText={(name) => this.setState({name})}
+            placeholder="Full Name"
+          />
+          <Text style={styles.error}>{this.state.nameError}</Text>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.email}
+            onChangeText={(email) => this.setState({email})}
+            placeholder="Email"
+            autoCapitalize="none"
+          />
+          <Text style={styles.error}>{this.state.emailError}</Text>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.password}
+            onChangeText={(password) => this.setState({password})}
+            placeholder="Password"
+            secureTextEntry={true}
+          />
+          <Text style={styles.error}>{this.state.passwordError}</Text>
 
-        <TextInput
-          style={styles.inputBox}
-          value={this.state.name}
-          onChangeText={(name) => this.setState({name})}
-          placeholder="Full Name"
-        />
-        <Text style={styles.error}>{this.state.nameError}</Text>
-        <TextInput
-          style={styles.inputBox}
-          value={this.state.email}
-          onChangeText={(email) => this.setState({email})}
-          placeholder="Email"
-          autoCapitalize="none"
-        />
-        <Text style={styles.error}>{this.state.emailError}</Text>
-        <TextInput
-          style={styles.inputBox}
-          value={this.state.password}
-          onChangeText={(password) => this.setState({password})}
-          placeholder="Password"
-          secureTextEntry={true}
-        />
-        <Text style={styles.error}>{this.state.passwordError}</Text>
+          <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
+            <Text style={styles.buttonText}>SIGNUP</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
-          <Text style={styles.buttonText}>Signup</Text>
-        </TouchableOpacity>
-
-        <Button
-          title="Have an account? Login"
-          onPress={() => this.props.navigation.navigate('Login')}
-        />
-      </ImageBackground>
+          <TouchableOpacity>
+            <Text
+              style={styles.sinuptxt}
+              onPress={() => this.props.navigation.navigate('Login')}>
+              Already Registered? Click here to login
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </React.Fragment>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  preloader:{
+  preloader: {
     left: 0,
     right: 0,
     top: 0,
@@ -137,41 +141,39 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
-  
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: '#fff',
   },
 
   inputBox: {
-    width: 300,
+    width: '95%',
     height: 44,
     padding: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderColor: 'black',
-    marginBottom: 2,
+    marginBottom: 10,
     borderRadius: 8,
     fontSize: 18,
-    color: '#fff',
+    color: '#795548',
   },
   button: {
-    marginTop: 6,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 10,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#FFA611',
-    borderColor: '#FFA611',
+    backgroundColor: 'blue',
     borderWidth: 1,
-    borderRadius: 8,
-    width: 200,
+    width: '95%',
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#fff',
   },
   buttonSignup: {
@@ -189,6 +191,16 @@ const styles = StyleSheet.create({
     //fontFamily:''
     color: 'yellow',
     //  marginTop:50,
+  },
+  crd: {
+    height: 260,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#94C5EC',
+  },
+  sinuptxt: {
+    fontSize: 14,
+    color: 'blue',
   },
 });
 

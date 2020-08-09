@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   LayoutAnimation,
 } from 'react-native';
-
+import {Card} from 'react-native-paper';
 import Firebase from '../Firebase/Firebase';
 
 import BG from '../image/login.jpg';
@@ -53,38 +53,43 @@ class Login extends React.Component {
 
     LayoutAnimation.easeInEaseOut();
     return (
+      <React.Fragment>
+        <View style={styles.container}>
+          <View style={styles.errorMessage}>
+            {this.state.errorMessage && (
+              <Text style={styles.error}>{this.state.errorMessage}</Text>
+            )}
+          </View>
 
-      <ImageBackground style={styles.container} source={BG}>
-        <Text style={styles.header}>Notice Board</Text>
-        <TextInput
-          style={styles.inputBox}
-          value={this.state.email}
-          onChangeText={(email) => this.setState({email})}
-          placeholder="Email"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.inputBox}
-          value={this.state.password}
-          onChangeText={(password) => this.setState({password})}
-          placeholder="Password"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText} onPress={this.handleLogin}>
-            Login
-          </Text>
-        </TouchableOpacity>
-        <Button
-          title="Don't have an account yet? Sign up"
-          onPress={() => this.props.navigation.navigate('Signup')}
-        />
-        <View style={styles.errorMessage}>
-          {this.state.errorMessage && (
-            <Text style={styles.error}>{this.state.errorMessage}</Text>
-          )}
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.email}
+            onChangeText={(email) => this.setState({email})}
+            placeholder="Email"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.password}
+            onChangeText={(password) => this.setState({password})}
+            placeholder="Password"
+            secureTextEntry={true}
+          />
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText} onPress={this.handleLogin}>
+              SIGNIN
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text
+              style={styles.sinuptxt}
+              onPress={() => this.props.navigation.navigate('Signup')}>
+              Don't have an account? Click here to signup
+            </Text>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </React.Fragment>
     );
   }
 }
@@ -106,32 +111,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: '#fff',
   },
+
+  crd: {
+    height: 180,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#94C5EC',
+  },
+
   inputBox: {
-    width: 300,
+    width: '95%',
     height: 44,
     padding: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderColor: 'black',
     marginBottom: 10,
     borderRadius: 8,
     fontSize: 18,
-    color: '#fff',
+    color: '#795548',
   },
   button: {
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 10,
     paddingVertical: 5,
     alignItems: 'center',
-    backgroundColor: '#F6820D',
-    borderColor: '#F6820D',
+    backgroundColor: 'blue',
+
     borderWidth: 1,
-    borderRadius: 8,
-    width: 200,
+
+    width: '95%',
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#fff',
   },
   buttonSignup: {
@@ -146,11 +159,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 30,
-    color:'red',
+    color: 'red',
   },
-  error:{
-    color:'red',
-    fontSize:16,
-  }
+  error: {
+    color: 'red',
+    fontSize: 16,
+  },
+  sinuptxt: {
+    fontSize: 14,
+    color:'blue',
+  },
+  
 });
 export default Login;
